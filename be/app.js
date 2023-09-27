@@ -7,10 +7,11 @@ const port = 5000;
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-
+var cors = require("cors");
 var app = express();
 
 // view engine setup
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

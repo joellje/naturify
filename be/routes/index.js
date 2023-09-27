@@ -16,6 +16,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/login", function (req, res, next) {
+  console.log("here");
   const secret = COOKIE_SECRET;
   res.cookie("spotify_auth_secret", secret);
 
@@ -56,13 +57,15 @@ router.get("/callback", async function (req, res, next) {
       // Handle successful authentication here
       // Store tokens?
       const { access_token, token_type } = tokenResponse.data;
+      console.log(access_token);
+      console.log(token_type);
       const meResponse = await axios.get("https://api.spotify.com/v1/me", {
         headers: {
           Authorization: `${token_type} ${access_token}`,
         },
       });
       console.log(meResponse.data);
-      res.redirect("http://localhost:3000");
+      res.redirect("http://localhost:3000/home");
     } else {
       res.send(tokenResponse);
     }
