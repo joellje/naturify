@@ -1,0 +1,22 @@
+{
+  "name": "naturify",
+  "version": "1.0.0",
+  "description": "<!-- ABOUT THE PROJECT -->",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd be && npm run dev\" \"cd fe && npm start\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joellje/naturify.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joellje/naturify/issues"
+  },
+  "homepage": "https://github.com/joellje/naturify#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
