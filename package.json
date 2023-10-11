@@ -4,7 +4,7 @@
   "description": "<!-- ABOUT THE PROJECT -->",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"cd be && npm run dev\" \"cd fe && npm start\" "
+    "dev": "concurrently \"cd be && npm run dev\" \"cd fe && npm start\" \"cd lc && source spotify-chat/bin/activate && python app.py\""
   },
   "repository": {
     "type": "git",

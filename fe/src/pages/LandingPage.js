@@ -3,16 +3,32 @@ import React, { useState, useEffect } from "react";
 function LandingPage() {
   const SPOTIFY_CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-  const scope = "user-read-private user-read-email";
-  const authenticated = localStorage.getItem("accessToken") !== null;
+  const scope =
+    "user-read-private user-read-email playlist-modify-public user-modify-playback-state";
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const authenticated = getCookieByName("accessToken") !== null;
+
+  function getCookieByName(cookieName) {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(cookieName + "=")) {
+        return cookie.substring(cookieName.length + 1);
+      }
+    }
+    return null;
+  }
+
+  function deleteCookie(cookieName) {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
 
   const handleSearch = async () => {
     setLoading(true);
     const data = {
-      access_token: localStorage.getItem("accessToken"),
-      token_type: localStorage.getItem("tokenType"),
+      access_token: getCookieByName("accessToken"),
+      token_type: "Bearer",
       search_query: searchQuery,
     };
     setSearchQuery("");
@@ -44,15 +60,14 @@ function LandingPage() {
 
   useEffect(() => {
     if (window.location.hash) {
-      const { access_token, expires_in, token_type } = getTokenValues(
-        window.location.hash
-      );
-
-      localStorage.clear();
-
-      localStorage.setItem("accessToken", access_token);
-      localStorage.setItem("tokenType", token_type);
-      localStorage.setItem("expiresIn", expires_in);
+      const { access_token, expires_in } = getTokenValues(window.location.hash);
+      const expirationDate = new Date(
+        Date.now() + expires_in * 1000
+      ).toUTCString();
+      const setCookie = () => {
+        document.cookie = `accessToken=${access_token}; expires=${expirationDate}; path=/`;
+      };
+      setCookie();
       window.location = "http://localhost:3000/";
     }
   });
@@ -63,7 +78,7 @@ function LandingPage() {
   };
 
   const handleLogout = () => {
-    localStorage.clear();
+    deleteCookie("accessToken");
     window.location.reload();
   };
 

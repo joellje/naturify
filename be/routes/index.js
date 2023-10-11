@@ -14,17 +14,26 @@ router.get("/", function (req, res, next) {
   res.send("Index!");
 });
 
-router.post("/query", function (req, res, next) {
-  console.log(req.body);
-  const dummyData = {
-    message: "This is a dummy JSON response",
-    data: {
-      key1: "value1",
-      key2: "value2",
-    },
-  };
+router.post("/query", async function (req, res, next) {
+  try {
+    const dummyData = {
+      message: "This is a dummy JSON response",
+      data: {
+        key1: "value1",
+        key2: "value2",
+      },
+    };
 
-  res.json(dummyData);
+    const result = await axios.post("http://localhost:8080/query", {
+      accessToken: `${req.body.access_token}`,
+      queryString: `${req.body.search_query}`,
+    });
+
+    res.json(result.data);
+  } catch (error) {
+    // Handle any errors that occurred during the request
+    console.error(error);
+  }
 });
 
 module.exports = router;
