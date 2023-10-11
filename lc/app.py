@@ -12,6 +12,7 @@ agent = initialize_agent_with_new_openai_functions(
 
 load_dotenv()
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+access_token = os.environ.get('ACCESS_TOKEN')
 
 # app = Flask(__name__)
 # CORS(app)
@@ -39,7 +40,6 @@ OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 while True:
     request = input(
         "\n\nRequest: ")
-    access_token = "BQD-BkzVcGF9IRWo9gaeCdRzuta8D63MdLwlqh3mqnTzfeZSNUOuzowLF9f24HbyTEMzkIcpk1lro2uat-44iHsGCR0gHO28fsTegqOOTUTNg3UygZRXdOaSCj3mQLbnPJtOerf4ZlWvBF7_MMkKm39Ov4m8V6_JqnFN5p132f2oM-OUM_wJPzMNuNF_etbF8H_2KcJ1XiwhnZTr5y6lbhhzHY99Tg"
     result = agent({"input": access_token + request})
     answer = result["output"]
     print(answer)
