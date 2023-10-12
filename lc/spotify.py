@@ -19,3 +19,5 @@ def start_play_song_by_name(access_token: str, song_name: str):
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't play song. Error: {error_message}"
+   
+# def start_play_song_by_lyrics(access_token: str, artist: str, lyrics: str):
