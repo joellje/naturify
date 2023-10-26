@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 import json
 import os
-import spotipy
 from naturify_agents import initialize_agent_with_new_openai_functions
 from naturify_tools import music_player_tools
 

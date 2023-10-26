@@ -5,31 +5,56 @@ import traceback
 
 load_dotenv()
 genius_api_key = os.getenv("GENIUS_API_KEY")
+genius = Genius(genius_api_key, verbose = True)
 
-def get_title(hit):
-    return hit["result"]["title"]
-
-def get_song_lyrics_genius(song: str, artist: str):
-    genius = Genius(genius_api_key)
+def get_song_lyrics_by_artist_and_song_name_genius(song: str, artist: str):
     try:
-        artist = genius.search_artist(artist, max_songs=3, sort="title")
-        if (artist):
-            songFound = artist.song(song)
-            if (songFound):
-                print(songFound.lyrics)
-                return songFound.lyrics
+        song = genius.search_song(title=song, artist=artist, get_full_info=True)
+        if song:
+            return song.lyrics
+        else:
+            return f"Couldn't find song."
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't find lyrics. Error: {error_message}"
     
-def get_song_name_genius(lyrics: str, artist: str):
-    genius = Genius(genius_api_key)
+def get_song_lyrics_by_song_name_genius(song: str):
     try:
-        songs = genius.search_lyrics(lyrics, per_page = 10)
-        if songs:
-            hits = songs["sections"][0]["hits"]
-            titles = [hit["result"]["title"] for hit in hits]
-            return titles[0]
+        song = genius.search_song(song)
+        if song: return song.lyrics
+        else:
+            return f"Couldn't find song."
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't find lyrics. Error: {error_message}"
+
+
+def get_song_name_by_artist_and_lyrics_genius(lyrics: str, artist: str):
+    try:
+        artist = genius.search_artist(artist, max_songs=1) # returns Artist object
+        if not artist:
+            return "Couldn't find artist."
+        
+        for i in range(1, 10):
+            res = genius.search_lyrics(lyrics, per_page = 50, page = i)
+            for song in res["sections"][0]["hits"]:
+                if artist.name in song["result"]["artist_names"]:
+                    print(song["result"]["title"])
+                    return song["result"]["title"]
+                    
+        return "Couldn't find song."
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't find song. Error: {error_message}"
+
+def get_song_name_by_lyrics_genius(lyrics: str):
+    try:
+        res = genius.search_lyrics(lyrics)
+        if res:
+            song = res["sections"][0]["hits"][0]["result"]
+            return song["title"]
+        else:
+            return f"Couldn't find song."
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't find song. Error: {error_message}"
