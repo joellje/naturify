@@ -1,6 +1,6 @@
 from pydantic.v1 import BaseModel, Field
 from spotify import start_play_song_by_name, start_play_song_by_lyrics, start_play_song_by_name_and_artist, start_play_song_by_lyrics_and_artist
-from lyrics import get_song_lyrics_by_artist_and_song_name_genius, get_song_lyrics_by_song_name_genius, get_song_name_by_artist_and_lyrics_genius, get_song_name_by_lyrics_genius
+from lyrics import get_song_lyrics_by_artist_and_song_name_genius, get_song_lyrics_by_song_name_genius, get_song_name_by_lyrics_and_artist_genius, get_song_name_by_lyrics_genius
 from langchain.tools import tool
 
 class Song(BaseModel):
@@ -61,10 +61,10 @@ def get_song_lyrics_by_song_name(access_token: str, song: str) -> str:
     """Extract the song name from user's request and get the lyrics."""
     return get_song_lyrics_by_song_name_genius(song)
 
-@tool("get_song_name_by_artist_and_lyrics", return_direct=True, args_schema=LyricsArtist)
-def get_song_name_by_artist_and_lyrics(access_token: str, artist: str, lyrics: str) -> str:
+@tool("get_song_name_by_lyrics_and_artist", return_direct=True, args_schema=LyricsArtist)
+def get_song_name_by_lyrics_and_artist(access_token: str, artist: str, lyrics: str) -> str:
     """Extract the lyrics and artist from user's request and get the song name."""
-    return get_song_name_by_artist_and_lyrics_genius(lyrics, artist)
+    return get_song_name_by_lyrics_and_artist_genius(lyrics, artist)
 
 @tool("get_song_name_by_lyrics", return_direct=True, args_schema=Lyrics)
 def get_song_name_by_lyrics(access_token: str, lyrics: str) -> str:
@@ -80,7 +80,7 @@ music_player_tools = [
     play_song_by_name_and_artist,
     play_song_by_lyrics_and_artist,
     get_song_lyrics_by_artist_and_song_name,
-    get_song_name_by_artist_and_lyrics,
+    get_song_name_by_lyrics_and_artist,
     get_song_lyrics_by_song_name,
     get_song_name_by_lyrics
 ]

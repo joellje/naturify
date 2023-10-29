@@ -7,11 +7,17 @@ load_dotenv()
 genius_api_key = os.getenv("GENIUS_API_KEY")
 genius = Genius(genius_api_key, verbose = True)
 
+def getLyricsOnly(geniusLyrics: str):
+    start_index = geniusLyrics.find('[')
+    res = geniusLyrics[start_index:].split('Embed')[0]
+    return res
+
 def get_song_lyrics_by_artist_and_song_name_genius(song: str, artist: str):
     try:
         song = genius.search_song(title=song, artist=artist, get_full_info=True)
         if song:
-            return song.lyrics
+            lyrics = song.lyrics
+            return getLyricsOnly(lyrics)
         else:
             return f"Couldn't find song."
     except Exception as e:
@@ -21,7 +27,9 @@ def get_song_lyrics_by_artist_and_song_name_genius(song: str, artist: str):
 def get_song_lyrics_by_song_name_genius(song: str):
     try:
         song = genius.search_song(song)
-        if song: return song.lyrics
+        if song: 
+            lyrics = song.lyrics
+            return getLyricsOnly(lyrics)
         else:
             return f"Couldn't find song."
     except Exception as e:
@@ -29,7 +37,7 @@ def get_song_lyrics_by_song_name_genius(song: str):
         return f"Couldn't find lyrics. Error: {error_message}"
 
 
-def get_song_name_by_artist_and_lyrics_genius(lyrics: str, artist: str):
+def get_song_name_by_lyrics_and_artist_genius(lyrics: str, artist: str):
     try:
         artist = genius.search_artist(artist, max_songs=1) # returns Artist object
         if not artist:

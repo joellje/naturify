@@ -17,6 +17,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
+    "node": "^21.1.0",
     "querystring": "^0.2.1"
   },
   "devDependencies": {
