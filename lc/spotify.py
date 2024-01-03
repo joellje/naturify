@@ -30,6 +30,20 @@ def start_play_song_by_name(access_token: str, song_name: str):
         error_message = traceback.format_exc()
         return f"Couldn't play song. Error: {error_message}"
     
+def add_to_queue_song_by_name(access_token: str, song_name: str):
+    try:
+        sp = spotipy.Spotify(auth = access_token)
+        song_uri = get_song_by_name(access_token, song_name)
+        if (song_uri):
+            sp.add_to_queue(uri=song_uri)
+            track = sp.track(song_uri)
+            return f"Added to queue {track['name']}"
+        else:
+            return f"Couldn't add to queue."
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't add to queue. Error: {error_message}"
+    
 def start_play_song_by_name_and_artist(access_token: str, song_name: str, artist: str):
     try:
         sp = spotipy.Spotify(auth = access_token)
