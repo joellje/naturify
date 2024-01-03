@@ -75,3 +75,39 @@ def start_play_song_by_lyrics_and_artist(access_token: str, lyrics: str, artist:
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't play song. Error: {error_message}"
+    
+def start_playback(access_token: str):
+    try: 
+        sp = spotipy.Spotify(auth = access_token)
+        sp.start_playback()
+        return f"Playback Started."
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't start playback. Error: {error_message}"
+
+def pause_playback(access_token: str):
+    try: 
+        sp = spotipy.Spotify(auth = access_token)
+        sp.pause_playback()
+        return f"Playback Paused."
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't stop playback. Error: {error_message}"
+    
+def play_next_track(access_token: str):
+    try: 
+        sp = spotipy.Spotify(auth = access_token)
+        sp.next_track()
+        return f"Skipped to next track."
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't skip track. Error: {error_message}"
+    
+def play_previous_track(access_token: str):
+    try: 
+        sp = spotipy.Spotify(auth = access_token)
+        sp.previous_track()
+        return f"Playing previous track."
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't play previous track. Error: {error_message}"
