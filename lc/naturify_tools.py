@@ -1,5 +1,5 @@
 from pydantic.v1 import BaseModel, Field
-from spotify import start_play_song_by_name, start_play_song_by_lyrics, start_play_song_by_name_and_artist, start_play_song_by_lyrics_and_artist, start_playback, pause_playback, play_next_track, play_previous_track
+from spotify import start_play_song_by_name, start_play_song_by_lyrics, start_play_song_by_name_and_artist, start_play_song_by_lyrics_and_artist, start_playback, pause_playback, play_next_track, play_previous_track, add_to_queue_song_by_name, add_to_queue_song_by_name_and_artist, add_to_queue_song_by_lyrics_and_artist, add_to_queue_song_by_lyrics
 from lyrics import get_song_lyrics_by_artist_and_song_name_genius, get_song_lyrics_by_song_name_genius, get_song_name_by_lyrics_and_artist_genius, get_song_name_by_lyrics_genius
 from langchain.tools import tool
 
@@ -39,20 +39,40 @@ def play_song_by_name_tool(access_token: str, song: str) -> str:
     """Extract the song name from user's request and play the song."""
     return start_play_song_by_name(access_token, song)
 
+@tool("add_to_queue_song_by_name", return_direct=True, args_schema=Song)
+def add_to_queue_song_by_name_tool(access_token: str, song: str) -> str:
+    """Extract the song name from user's request and add the song to queue."""
+    return add_to_queue_song_by_name(access_token, song)
+
 @tool("play_song_by_lyrics", return_direct=True, args_schema=Lyrics)
 def play_song_by_lyrics_tool(access_token: str, lyrics: str) -> str:
     """Extract the song lyrics from user's request and play the song."""
     return start_play_song_by_lyrics(access_token, lyrics)
+
+@tool("add_to_queue_song_by_lyrics", return_direct=True, args_schema=Lyrics)
+def add_to_queue_song_by_lyrics_tool(access_token: str, lyrics: str) -> str:
+    """Extract the song lyrics from user's request and add the song to queue."""
+    return add_to_queue_song_by_lyrics(access_token, lyrics)
 
 @tool("play_song_by_name_and_artist", return_direct=True, args_schema=SongArtist)
 def play_song_by_name_and_artist_tool(access_token: str, song: str, artist: str) -> str:
     """Extract the song name and artist from user's request and play the song."""
     return start_play_song_by_name_and_artist(access_token, song, artist)
 
+@tool("add_to_queue_song_by_name_and_artist", return_direct=True, args_schema=SongArtist)
+def add_to_queue_song_by_name_and_artist_tool(access_token: str, song: str, artist: str) -> str:
+    """Extract the song name and artist from user's request and add the song to queue."""
+    return add_to_queue_song_by_name_and_artist(access_token, song, artist)
+
 @tool("play_song_by_lyrics_and_artist", return_direct=True, args_schema=LyricsArtist)
 def play_song_by_lyrics_and_artist_tool(access_token: str, lyrics: str, artist: str) -> str:
     """Extract the lyrics and artist from user's request and play the song."""
     return start_play_song_by_lyrics_and_artist(access_token, lyrics, artist)
+
+@tool("add_to_queue_song_by_lyrics_and_artist", return_direct=True, args_schema=LyricsArtist)
+def add_to_queue_song_by_lyrics_and_artist_tool(access_token: str, lyrics: str, artist: str) -> str:
+    """Extract the lyrics and artist from user's request and add the song to queue."""
+    return add_to_queue_song_by_lyrics_and_artist(access_token, lyrics, artist)
 
 @tool("get_song_lyrics_by_artist_and_song_name", return_direct=True, args_schema=SongArtist)
 def get_song_lyrics_by_artist_and_song_name_tool(access_token: str, artist: str, song: str) -> str:
@@ -98,9 +118,13 @@ def play_previous_track_tool(access_token: str, lyrics: str) -> str:
 
 music_player_tools = [
     play_song_by_name_tool,
+    add_to_queue_song_by_name_tool,
     play_song_by_lyrics_tool,
+    add_to_queue_song_by_lyrics_tool,
     play_song_by_name_and_artist_tool,
+    add_to_queue_song_by_name_and_artist_tool,
     play_song_by_lyrics_and_artist_tool,
+    add_to_queue_song_by_lyrics_and_artist_tool,
     get_song_lyrics_by_artist_and_song_name_tool,
     get_song_name_by_lyrics_and_artist_tool,
     get_song_lyrics_by_song_name_tool,

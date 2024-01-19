@@ -28,8 +28,7 @@ def query():
     data_dict = json.loads(json_string)
     access_token = data_dict['accessToken']
     search_query = data_dict['queryString']
-    
-    result = agent({"input": access_token + search_query})
+    result = agent({"input": "access_token: " + access_token + "query: " + search_query})
     answer = result["output"]
     return make_response(jsonify({'result': answer}), 200) #TODO: tidy responses
 

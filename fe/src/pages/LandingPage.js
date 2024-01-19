@@ -93,7 +93,19 @@ function LandingPage() {
                 document.cookie = `accessToken=${access_token}; expires=${expirationDate}; path=/`;
             };
             setCookie();
-            window.location = 'http://localhost:3000/';
+            const setUserId = async () => {
+                const queryResponse = await fetch(`https://api.spotify.com/v1/me`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                });
+                const queryResponseJSON = await queryResponse.json();
+                document.cookie = `userId=${queryResponseJSON.id}; expires=${expirationDate}; path=/`;
+                window.location = 'http://localhost:3000/';
+            };
+            setUserId();
         }
     });
 
@@ -104,6 +116,7 @@ function LandingPage() {
 
     const handleLogout = () => {
         deleteCookie('accessToken');
+        deleteCookie('userId');
         window.location.reload();
     };
 
