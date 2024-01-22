@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 function LandingPage() {
     const SPOTIFY_CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
     const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
-    const scope = 'user-read-private user-read-email playlist-modify-public user-modify-playback-state';
+    const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-modify-playback-state user-top-read';
     const [searchQuery, setSearchQuery] = useState('');
     const [result, setResult] = useState('');
     const [loading, setLoading] = useState(false);

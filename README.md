@@ -10,8 +10,8 @@ Web App where users can make natural language queries to interact with Spotify
 
 -   [x] add songs to queue
 -   [x] start/ stop playback
--   [ ] history of queries (past 5)
 -   [ ] song recommendations
+-   [ ] history of queries (past 5)
 -   [ ] feedback system for correct/ wrong decisions
 -   [ ] finetune model
 -   [ ] beautify UI

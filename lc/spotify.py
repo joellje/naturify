@@ -1,7 +1,10 @@
 import os
 import traceback
 import spotipy
+import requests
+import json
 from lyrics import get_song_name_by_lyrics_genius, get_song_name_by_lyrics_and_artist_genius
+from datetime import datetime
 
 def get_song_by_name(access_token: str, name: str):
     try: 
@@ -174,3 +177,89 @@ def play_previous_track(access_token: str):
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't play previous track. Error: {error_message}"
+    
+def recommend_tracks_by_user_top_tracks(access_token: str):
+    try: 
+        sp = spotipy.Spotify(auth = access_token)
+        user_top_tracks= sp.current_user_top_tracks(limit=5, offset=0, time_range='medium_term')
+        user_top_tracks_uris = [item["uri"].split(":")[-1] for item in user_top_tracks["items"]]
+        recommended_tracks = sp.recommendations(seed_tracks = user_top_tracks_uris, limit = 20, country = 'SG')
+        recommended_tracks_uris = [track["id"] for track in recommended_tracks["tracks"]]
+
+        playlist_name = "Recommended Tracks " + datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        res = create_playlist(access_token, playlist_name, "Naturify-recommended tracks, just for you!", False)
+        
+        sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
+        url = res["url"]
+
+        return f"To access playlist, click here: {url}"
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't recommend tracks. Error: {error_message}"
+    
+def recommend_tracks_by_user_prompt(access_token: str, prompt: str):
+    try:
+        return "To be impelemented"
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't recommend tracks. Error: {error_message}"
+
+def recommend_tracks_by_genre(access_token: str, genre: str):
+    try:
+        sp = spotipy.Spotify(auth = access_token)
+        recommended_tracks = sp.recommendations(seed_genres = [genre.lower()], limit = 20, country = 'SG')
+        recommended_tracks_uris = [track["id"] for track in recommended_tracks["tracks"]]
+        if not recommended_tracks_uris: return f"No tracks found. Please input a valid genre."
+
+        playlist_name = "Recommended Tracks " + datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        res = create_playlist(access_token, playlist_name, "Naturify-recommended tracks, just for you!", False)
+        print(recommended_tracks_uris)
+        sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
+        url = res["url"]
+        
+        return f"To access playlist, click here: {url}"
+    
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't recommend tracks. Error: {error_message}"
+    
+def recommend_tracks_by_artist(access_token: str, artist: str):
+    try:
+        sp = spotipy.Spotify(auth = access_token)
+        artist = sp.search(artist, limit=1,type='artist')["artists"]["items"][0]["id"]
+        if not artist: return f"No tracks found. Please input a valid artist."
+        recommended_tracks = sp.recommendations(seed_artists = [artist], limit = 20, country = 'SG')
+        recommended_tracks_uris = [track["id"] for track in recommended_tracks["tracks"]]
+
+        playlist_name = "Recommended Tracks " + datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        res = create_playlist(access_token, playlist_name, "Naturify-recommended tracks, just for you!", False)
+        sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
+        url = res["url"]
+        
+        return f"To access playlist, click here: {url}"
+
+        return f"Hello"
+    
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't recommend tracks. Error: {error_message}"
+    
+def create_playlist(access_token: str, playlist_name: str, description: str, public: bool):
+    try:
+        sp = spotipy.Spotify(auth = access_token)
+        user_id = sp.me()["uri"].split(":")[-1]
+
+        data = {"name": playlist_name, "description": description, "public": public}
+        json_data = json.dumps(data)
+        headers = {'Content-Type': 'application/json', 'Authorization': f'Bearer {access_token}'}
+        res = requests.post(f"https://api.spotify.com/v1/users/{user_id}/playlists", data=json_data, headers=headers)
+
+        playlist_id = res.json()["id"]
+        url = res.json()["external_urls"]["spotify"]
+
+        res = {"playlist_id": playlist_id, "url": url}
+
+        return res
+    except Exception as e:
+        error_message = traceback.format_exc()
+        return f"Couldn't create playlist. Error: {error_message}"
