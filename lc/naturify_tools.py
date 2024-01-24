@@ -23,7 +23,7 @@ class Artist(BaseModel):
     access_token: str = Field(
         description="user's access_token")
     artist: str = Field(
-        description="artist in the user's request")
+        description="artist in the user's request, usually found after the word 'by'")
 
 class Song(BaseModel):
     access_token: str = Field(
@@ -37,7 +37,7 @@ class SongArtist(BaseModel):
     song: str = Field(
         description="song name in the user's request")
     artist: str = Field(
-        description="artist in the user's request")
+        description="artist in the user's request, usually found after the word 'by'")
     
 class Lyrics(BaseModel):
     access_token: str = Field(
@@ -51,7 +51,7 @@ class LyricsArtist(BaseModel):
     lyrics: str = Field(
         description="lyrics in the user's request")
     artist: str = Field(
-        description="artist in the user's request")
+        description="artist in the user's request, usually found after the word 'by'")
     
 @tool("play_song_by_name", return_direct=True, args_schema=Song)
 def play_song_by_name_tool(access_token: str, song: str) -> str:

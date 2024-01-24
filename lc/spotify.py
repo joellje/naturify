@@ -199,7 +199,7 @@ def recommend_tracks_by_user_top_tracks(access_token: str):
     
 def recommend_tracks_by_user_prompt(access_token: str, prompt: str):
     try:
-        return "To be impelemented"
+        return "To be implemented"
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't recommend tracks. Error: {error_message}"
@@ -237,8 +237,6 @@ def recommend_tracks_by_artist(access_token: str, artist: str):
         url = res["url"]
         
         return f"To access playlist, click here: {url}"
-
-        return f"Hello"
     
     except Exception as e:
         error_message = traceback.format_exc()

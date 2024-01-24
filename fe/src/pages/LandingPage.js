@@ -8,6 +8,7 @@ function LandingPage() {
     const [result, setResult] = useState('');
     const [loading, setLoading] = useState(false);
     const [queryLoading, setQueryLoading] = useState(false);
+    const [queries, setQueries] = useState([]);
     const authenticated = getCookieByName('accessToken') !== null;
 
     function getCookieByName(cookieName) {
@@ -27,12 +28,14 @@ function LandingPage() {
 
     const handleSearch = async () => {
         setQueryLoading(true);
+        setQueries([...queries, searchQuery]);
         const data = {
             access_token: getCookieByName('accessToken'),
             token_type: 'Bearer',
             search_query: searchQuery,
         };
         setSearchQuery('');
+        setResult('');
 
         const queryResponse = await fetch(`http://localhost:5000/query`, {
             method: 'POST',
@@ -148,6 +151,13 @@ function LandingPage() {
                     </div>
 
                     <ResultComponent result={result} />
+
+                    <h1>Queries</h1>
+                    <ul>
+                        {queries.map((query) => (
+                            <li key={query}>{query}</li>
+                        ))}
+                    </ul>
 
                     <button className={`btn btn-primary ${loading === true ? 'loading' : ' '}`} onClick={handleLogout}>
                         Logout
