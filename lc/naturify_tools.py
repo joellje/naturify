@@ -171,7 +171,7 @@ music_player_tools = [
     play_next_track_tool,
     play_previous_track_tool,
     recommend_tracks_by_user_top_tracks_tool,
-    # recommend_tracks_by_user_prompt_tool
+    recommend_tracks_by_user_prompt_tool,
     recommend_tracks_by_genre_tool,
     recommend_tracks_by_artist_tool
 

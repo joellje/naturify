@@ -199,7 +199,47 @@ def recommend_tracks_by_user_top_tracks(access_token: str):
     
 def recommend_tracks_by_user_prompt(access_token: str, prompt: str):
     try:
-        return "To be implemented"
+        sp = spotipy.Spotify(auth = access_token)
+        related_playlists = sp.search(prompt, limit=10,type='playlist')['playlists']['items']
+        related_playlists_ids = [playlist["id"] for playlist in related_playlists]
+        related_playlists_tracks = [sp.playlist_tracks(playlist_id, limit=10, offset=0)["items"] for playlist_id in related_playlists_ids]
+        track_ids = []
+        for playlist in related_playlists_tracks:
+            for track in playlist:
+                if not track or not track["track"]: continue
+                track_ids.append(track["track"]["id"])
+
+        # Get variables from track ids
+        audio_features = sp.audio_features(track_ids)
+        totals = {}
+        for track in audio_features:
+            for key, value in track.items():
+                if not isinstance(value, str):
+                    if key in totals:
+                        totals[key] += value
+                    else:
+                        totals[key] = value
+
+        # Get averages
+        averages = {}
+        for key, value in totals.items():
+            averages["target_" + key] = value / len(audio_features)
+        averages["target_duration_ms"] = int(averages["target_duration_ms"])
+        averages["target_key"] = int(averages["target_key"])
+        averages["target_time_signature"] = int(averages["target_time_signature"])
+        del averages["target_mode"]
+        print(averages)
+
+        recommended_tracks_details = sp.recommendations(seed_tracks = track_ids[:5], **averages)
+        recommended_tracks_uris = [track["id"] for track in recommended_tracks_details["tracks"]]
+
+        playlist_name = "Recommended Tracks " + datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        res = create_playlist(access_token, playlist_name, "Naturify-recommended tracks, just for you!", False)
+        print(recommended_tracks_uris)
+        sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
+        url = res["url"]
+        
+        return f"To access playlist, click here: {url}"
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't recommend tracks. Error: {error_message}"
