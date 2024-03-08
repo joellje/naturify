@@ -22,15 +22,16 @@ def hello():
 
 @app.route('/query', methods=['POST'])
 def query():
-    print(request)
     data = request.get_data()
     json_string = data.decode('utf-8')
     data_dict = json.loads(json_string)
     access_token = data_dict['accessToken']
     search_query = data_dict['queryString']
     result = agent({"input": "access_token: " + access_token + ", query: " + search_query})
-    answer = result["output"]
-    return make_response(jsonify({'result': answer}), 200) #TODO: tidy responses
+    message = result["output"]["message"]
+    function = result["output"]["function"]
+    status = result["output"]["status"]
+    return make_response(jsonify({'message': message, 'query': search_query, 'function': function}), status)
 
 if __name__ == '__main__':
     app.run(debug=True, host='localhost', port=8080)

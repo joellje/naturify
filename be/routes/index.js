@@ -28,7 +28,7 @@ router.post('/query', async function (req, res, next) {
         });
         const jsonResponse = await response.json();
         console.log(jsonResponse);
-        res.json({ result: jsonResponse.result });
+        res.json({ result: jsonResponse });
     } catch (error) {
         // Handle any errors that occurred during the request
         console.error(error);

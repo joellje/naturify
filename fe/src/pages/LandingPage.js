@@ -52,7 +52,7 @@ function LandingPage() {
 
         const queryResponseJSON = await queryResponse.json();
         console.log(queryResponseJSON);
-        const result = queryResponseJSON.result;
+        const result = queryResponseJSON.result.message;
         setResult(result);
         setQueryLoading(false);
     };
@@ -87,24 +87,28 @@ function LandingPage() {
         return (
             <>
                 {result.slice(0, 8) === "Couldn't" ? (
-                    <div role='alert' className='my-4 alert alert-error'>
-                        <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
-                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z' />
-                        </svg>
-                        <span>{result.substring(0, result.indexOf('.'))}</span>
+                    <div className='my-4 p-4 text-black h-72'>
+                        <div role='alert' className='my-4 alert alert-error'>
+                            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                            </svg>
+                            <span>{result.substring(0, result.indexOf('.'))}</span>
+                        </div>
                     </div>
                 ) : result.slice(0, 18) === 'To access playlist' ? (
-                    <div className='my-4 alert alert-success'>
-                        <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
-                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
-                        </svg>
-                        <span>
-                            <a href={result.substring(result.indexOf('https'))} target='_blank' rel='noopener noreferrer'>
-                                Playlist created. Click here to be redirected.
-                            </a>
-                        </span>
+                    <div className='my-4 p-4 text-black h-72'>
+                        <div className='my-4 alert alert-success'>
+                            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                            </svg>
+                            <span>
+                                <a href={result.substring(result.indexOf('https'))} target='_blank' rel='noopener noreferrer'>
+                                    Playlist created. Click here to be redirected.
+                                </a>
+                            </span>
+                        </div>
                     </div>
-                ) : result.length > 100 ? (
+                ) : result.length > 120 ? (
                     <div className='my-4 p-4 border rounded-lg shadow-md text-black h-72 overflow-y-auto'>
                         <h2 className='text-2xl font-bold mb-4'>Song Lyrics</h2>
                         <div>
@@ -112,13 +116,30 @@ function LandingPage() {
                         </div>
                     </div>
                 ) : result.length === 0 ? (
-                    <></>
+                    <div className='my-4 p-4 text-black h-72'>
+                        <div>
+                            <pre>{result}</pre>
+                        </div>
+                    </div>
+                ) : result.slice(0, 9) === "I'm sorry" ? (
+                    <div className='my-4 p-4 text-black h-72'>
+                        <div role='alert' className='my-4 alert alert-error'>
+                            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                            </svg>
+                            <span>
+                                <p>Couldn't process your request. Please input an appropriate request.</p>
+                            </span>
+                        </div>
+                    </div>
                 ) : (
-                    <div className='my-4 alert alert-success'>
-                        <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
-                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
-                        </svg>
-                        <span>{result}</span>
+                    <div className='my-4 p-4 text-black h-72'>
+                        <div className='alert alert-success'>
+                            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                            </svg>
+                            <span>{result}</span>
+                        </div>
                     </div>
                 )}
             </>
@@ -173,7 +194,7 @@ function LandingPage() {
     };
 
     return (
-        <div className='min-h-screen bg-white flex flex-col justify-center items-center'>
+        <div className='min-h-screen min-w-screen bg-white flex flex-col justify-center items-center'>
             {!authenticated && (
                 <div className='flex flex-col items-center'>
                     <img src={main} className='w-80 h-80 mt-4 border border-gray rounded p-10 m-5' alt='Main Logo' />
@@ -186,49 +207,51 @@ function LandingPage() {
                 </div>
             )}
             {authenticated && (
-                <div className='flex flex-col items-center'>
-                    {/* <h1 className='text-center mb-4'>Landing Page</h1> */}
-
-                    <ResultComponent result={result} />
-
-                    <div className='relative text-gray-600 flex items-center mb-5'>
-                        <input
-                            type='text'
-                            className='border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none'
-                            placeholder='Type your query here...'
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        <button type='submit' className={`btn btn-primary ml-2 ${queryLoading === true ? 'loading' : ''}`} onClick={handleSearch}>
-                            <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4 text-black-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M21 21l-4.35-4.35' />
-                                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15 11a4 4 0 11-8 0 4 4 0 018 0z' />
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div>
-                        {queries.length > 0 && (
-                            <div className='flex flex-row items-center justify-center mt-4'>
-                                <h1 className='text-xl font-bold text-center text-gray-900 m-2'>Past Queries</h1>
-                                <button className='btn btn-xs btn-error' onClick={handleClearQueries}>
-                                    Clear Queries
+                <>
+                    <div className='w-full h-full flex flex-col items-center'>
+                        <h1 className='absolute top-10 text-4xl font-bold text-center text-gray-900'>Naturify</h1>
+                        <ResultComponent result={result} />
+                        <div>
+                            <div className='relative text-gray-600 flex justify-center items-center mb-5'>
+                                <input
+                                    type='text'
+                                    className='border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none'
+                                    placeholder='Type your query here...'
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                                <button type='submit' className={`btn btn-primary ml-2 ${queryLoading === true ? 'loading' : ''}`} onClick={handleSearch}>
+                                    <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4 text-black-600' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M21 21l-4.35-4.35' />
+                                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15 11a4 4 0 11-8 0 4 4 0 018 0z' />
+                                    </svg>
                                 </button>
                             </div>
-                        )}
-                        <ul className='text-center flex flex-col'>
-                            {queries.map((query, index) => (
-                                <li className='btn btn-xs btn-neutral mb-1' onClick={() => handlePastSearch(query)} key={index}>
-                                    {query}
-                                </li>
-                            ))}
-                        </ul>
+
+                            <div>
+                                {queries.length > 0 && (
+                                    <div className='flex flex-row items-center justify-center mt-4'>
+                                        <h1 className='text-xl font-bold text-center text-gray-900 m-2'>Past Queries</h1>
+                                        <button className='btn btn-xs btn-error' onClick={handleClearQueries}>
+                                            Clear Queries
+                                        </button>
+                                    </div>
+                                )}
+                                <ul className='text-center flex flex-col'>
+                                    {queries.map((query, index) => (
+                                        <li className='btn btn-xs btn-neutral mb-1' onClick={() => handlePastSearch(query)} key={index}>
+                                            {query}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
 
                         <button className={`fixed btn btn-primary mt-4 bottom-5 right-5 ${loading === true ? 'loading' : ''}`} onClick={handleLogout}>
                             Logout
                         </button>
                     </div>
-                </div>
+                </>
             )}
         </div>
     );

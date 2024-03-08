@@ -155,7 +155,9 @@ def pause_playback(access_token: str):
     try: 
         sp = spotipy.Spotify(auth = access_token)
         sp.pause_playback()
-        return f"Playback Paused."
+        res = {"message": "Playback Paused.", "function": "pause_playback", "status": "200"}
+        # return f"Playback Paused."
+        return res
     except Exception as e:
         error_message = traceback.format_exc()
         return f"Couldn't stop playback. Error: {error_message}"
