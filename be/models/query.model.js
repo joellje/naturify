@@ -3,7 +3,7 @@ const QUERY_STATES = ['UNSUCCESSFUL', 'SUCCESSFUL', 'WRONG', 'CORRECT'];
 
 const query_schema = new mongoose.Schema(
     {
-        customer_id: {
+        query_id: {
             type: mongoose.Schema.Types.ObjectId,
             default: function () {
                 return new mongoose.Types.ObjectId();
