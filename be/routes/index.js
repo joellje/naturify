@@ -3,6 +3,8 @@ require('dotenv').config();
 const axios = require('axios');
 const { token } = require('morgan');
 var router = express.Router();
+const { Query } = require('../models/query.model');
+const { json } = require('stream/consumers');
 
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
@@ -28,7 +30,14 @@ router.post('/query', async function (req, res, next) {
         });
         const jsonResponse = await response.json();
         console.log(jsonResponse);
-        res.json({ result: jsonResponse });
+        status_string = response.status === 200 ? 'SUCCESSFUL' : 'UNSUCCESSFUL';
+        const new_query = new Query({
+            query: jsonResponse.query,
+            func: jsonResponse.function,
+            status: status_string,
+        });
+        await new_query.save();
+        res.status(response.status).json({ result: jsonResponse });
     } catch (error) {
         // Handle any errors that occurred during the request
         console.error(error);

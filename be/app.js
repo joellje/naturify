@@ -3,7 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const port = 5000;
+const PORT = 5000;
+const mongoose = require('mongoose');
+require('dotenv').config();
+const db_uri = process.env.MONGODB_URI;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,8 +25,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+/* Connecting to the database and then starting the server. */
+mongoose
+    .connect(db_uri)
+    .then(() => {
+        app.listen(PORT, '0.0.0.0', () => console.log(`Database started. HTTP Server started on port ${PORT}`));
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 module.exports = app;

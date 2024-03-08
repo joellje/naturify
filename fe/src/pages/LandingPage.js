@@ -33,7 +33,6 @@ function LandingPage() {
 
     const handleSearch = async () => {
         setQueryLoading(true);
-        setQueries([...queries, searchQuery]);
         const data = {
             access_token: getCookieByName('accessToken'),
             token_type: 'Bearer',
@@ -52,14 +51,17 @@ function LandingPage() {
 
         const queryResponseJSON = await queryResponse.json();
         console.log(queryResponseJSON);
-        const result = queryResponseJSON.result.message;
-        setResult(result);
+        if (queryResponse.status === 200) {
+            setQueries([...queries, searchQuery]);
+            setResult(result);
+        } else {
+            setResult("I'm sorry, I couldn't process your request. Please input an appropriate request.");
+        }
         setQueryLoading(false);
     };
 
     const handlePastSearch = async (query) => {
         setQueryLoading(true);
-        setQueries([...queries, query]);
         const data = {
             access_token: getCookieByName('accessToken'),
             token_type: 'Bearer',
@@ -78,8 +80,12 @@ function LandingPage() {
 
         const queryResponseJSON = await queryResponse.json();
         console.log(queryResponseJSON);
-        const result = queryResponseJSON.result;
-        setResult(result);
+        if (queryResponse.status === 200) {
+            setQueries([...queries, query]);
+            setResult(result);
+        } else {
+            setResult("I'm sorry, I couldn't process your request. Please input an appropriate request.");
+        }
         setQueryLoading(false);
     };
 
@@ -239,9 +245,13 @@ function LandingPage() {
                                 )}
                                 <ul className='text-center flex flex-col'>
                                     {queries.map((query, index) => (
-                                        <li className='btn btn-xs btn-neutral mb-1' onClick={() => handlePastSearch(query)} key={index}>
-                                            {query}
-                                        </li>
+                                        <div className='flex flex-row'>
+                                            <li className='btn btn-xs btn-neutral mb-1' onClick={() => handlePastSearch(query)} key={index}>
+                                                {query}
+                                            </li>
+                                            <button className='btn btn-xs mx-1'>Correct</button>
+                                            <button className='btn btn-xs'>Wrong</button>
+                                        </div>
                                     ))}
                                 </ul>
                             </div>

@@ -18,5 +18,8 @@
   "homepage": "https://github.com/joellje/naturify#readme",
   "devDependencies": {
     "concurrently": "^8.2.1"
+  },
+  "dependencies": {
+    "mongodb": "^6.4.0"
   }
 }

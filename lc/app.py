@@ -23,11 +23,19 @@ def hello():
 @app.route('/query', methods=['POST'])
 def query():
     data = request.get_data()
+    print("Here: ", data)
     json_string = data.decode('utf-8')
     data_dict = json.loads(json_string)
     access_token = data_dict['accessToken']
     search_query = data_dict['queryString']
     result = agent({"input": "access_token: " + access_token + ", query: " + search_query})
+    print(result)
+
+    if isinstance(result["output"], str):
+        message = "I'm sorry, but I couldn't understand your request. Can you please provide more information or clarify your query?"
+        function = "not_called"
+        status = 500
+        return make_response(jsonify({'message': message, 'query': search_query, 'function': function}), status)
     message = result["output"]["message"]
     function = result["output"]["function"]
     status = result["output"]["status"]

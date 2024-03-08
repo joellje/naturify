@@ -26,12 +26,18 @@ def start_play_song_by_name(access_token: str, song_name: str):
         if (song_uri):
             sp.start_playback(uris=[song_uri])
             track = sp.track(song_uri)
-            return f"Started playing song {track['name']}"
+            message = f"Started playing song {track['name']}"
+            res = {"message": message, "function": "start_play_song_by_name", "status": 200}
+            return res
         else:
-            return f"Couldn't play song."
+            message = f"Couldn't play song."
+            res = {"message": message, "function": "start_play_song_by_name", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't play song. Error: {error_message}"
+        message = f"Couldn't play song. Error: {error_message}"
+        res = {"message": message, "function": "start_play_song_by_name", "status": 500}
+        return res
     
 def add_to_queue_song_by_name(access_token: str, song_name: str):
     try:
@@ -41,12 +47,18 @@ def add_to_queue_song_by_name(access_token: str, song_name: str):
         if (song_uri):
             sp.add_to_queue(song_uri)
             track = sp.track(song_uri)
-            return f"Added to queue {track['name']}"
+            message = f"Added to queue {track['name']}"
+            res = {"message": message, "function": "add_to_queue_song_by_name", "status": 200}
+            return res
         else:
-            return f"Couldn't add to queue."
+            message = f"Couldn't add to queue."
+            res = {"message": message, "function": "add_to_queue_song_by_name", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't add to queue. Error: {error_message}"
+        message = f"Couldn't add to queue. Error: {error_message}"
+        res = {"message": message, "function": "add_to_queue_song_by_name", "status": 500}
+        return res
     
 def start_play_song_by_name_and_artist(access_token: str, song_name: str, artist: str):
     try:
@@ -55,12 +67,18 @@ def start_play_song_by_name_and_artist(access_token: str, song_name: str, artist
         if (song_uri):
             sp.start_playback(uris=[song_uri])
             track = sp.track(song_uri)
-            return f"Started playing song {track['name']}"
+            message = f"Started playing song {track['name']}"
+            res = {"message": message, "function": "start_play_song_by_name_and_artist", "status": 200}
+            return res
         else:
-            return f"Couldn't play song."
+            message = f"Couldn't play song."
+            res = {"message": message, "function": "start_play_song_by_name_and_artist", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't play song. Error: {error_message}"
+        message = f"Couldn't play song. Error: {error_message}"
+        res = {"message": message, "function": "start_play_song_by_name_and_artist", "status": 500}
+        return res
     
 def add_to_queue_song_by_name_and_artist(access_token: str, song_name: str, artist: str):
     try:
@@ -69,12 +87,18 @@ def add_to_queue_song_by_name_and_artist(access_token: str, song_name: str, arti
         if (song_uri):
             sp.add_to_queue(uri=song_uri)
             track = sp.track(song_uri)
-            return f"Added to queue {track['name']}"
+            message = f"Added to queue {track['name']}"
+            res = {"message": message, "function": "add_to_queue_song_by_name_and_artist", "status": 200}
+            return res
         else:
-            return f"Couldn't add to queue."
+            message = f"Couldn't add to queue."
+            res = {"message": message, "function": "add_to_queue_song_by_name_and_artist", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't add to queue. Error: {error_message}"
+        message = f"Couldn't add to queue. Error: {error_message}"
+        res = {"message": message, "function": "add_to_queue_song_by_name_and_artist", "status": 500}
+        return res
    
 def start_play_song_by_lyrics(access_token: str, lyrics: str):
     try:
@@ -83,12 +107,18 @@ def start_play_song_by_lyrics(access_token: str, lyrics: str):
         song_uri = get_song_by_name(access_token, song_name)
         if (song_uri):
             sp.start_playback(uris=[song_uri])
-            return f"Started playing song {song_name}"
+            message = f"Started playing song {song_name}"
+            res = {"message": message, "function": "start_play_song_by_lyrics", "status": 200}
+            return res
         else:
-            return f"Couldn't play song."
+            message = f"Couldn't play song."
+            res = {"message": message, "function": "start_play_song_by_lyrics", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't play song. Error: {error_message}"
+        message = f"Couldn't play song. Error: {error_message}"
+        res = {"message": message, "function": "start_play_song_by_lyrics", "status": 500}
+        return res
     
 def add_to_queue_song_by_lyrics(access_token: str, lyrics: str):
     try:
@@ -98,30 +128,43 @@ def add_to_queue_song_by_lyrics(access_token: str, lyrics: str):
         if (song_uri):
             sp.add_to_queue(uri=song_uri)
             track = sp.track(song_uri)
-            return f"Added to queue {track['name']}"
+            message = f"Added to queue {track['name']}"
+            res = {"message": message, "function": "add_to_queue_song_by_lyrics", "status": 200}
+            return res
         else:
-            return f"Couldn't add to queue."
+            message = f"Couldn't add to queue."
+            res = {"message": message, "function": "add_to_queue_song_by_lyrics", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't add to queue. Error: {error_message}"
+        message = f"Couldn't add to queue. Error: {error_message}"
+        res = {"message": message, "function": "add_to_queue_song_by_lyrics", "status": 500}
+        return res
     
 def start_play_song_by_lyrics_and_artist(access_token: str, lyrics: str, artist: str):
     try:
         sp = spotipy.Spotify(auth = access_token)
         song_name = get_song_name_by_lyrics_and_artist_genius(lyrics, artist)
-        print(song_name)
         if song_name[:13] != "Couldn't find":
             song_uri = get_song_by_name(access_token, song_name)
             if (song_uri):
                 sp.start_playback(uris=[song_uri])
-                return f"Started playing song {song_name}"
+                message = f"Started playing song {song_name}"
+                res = {"message": message, "function": "start_play_song_by_lyrics_and_artist", "status": 200}
+                return res
             else:
-                return f"Couldn't play song."
+                message = f"Couldn't play song."
+                res = {"message": message, "function": "start_play_song_by_lyrics_and_artist", "status": 500}
+                return res
         else:
-            return f"Couldn't play song."
+            message = f"Couldn't play song."
+            res = {"message": message, "function": "start_play_song_by_lyrics_and_artist", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't play song. Error: {error_message}"
+        message = f"Couldn't play song. Error: {error_message}"
+        res = {"message": message, "function": "pause_playback", "status": 500}
+        return res
     
 def add_to_queue_song_by_lyrics_and_artist(access_token: str, lyrics: str, artist: str):
     try:
@@ -133,52 +176,73 @@ def add_to_queue_song_by_lyrics_and_artist(access_token: str, lyrics: str, artis
             if (song_uri):
                 sp.add_to_queue(uri=song_uri)
                 track = sp.track(song_uri)
-                return f"Added to queue {track['name']}"
+                message = f"Added to queue {track['name']}"
+                res = {"message": message, "function": "add_to_queue_song_by_lyrics_and_artist", "status": 200}
+                return res
             else:
-                return f"Couldn't add to queue."
+                message = f"Couldn't add to queue."
+                res = {"message": message, "function": "add_to_queue_song_by_lyrics_and_artist", "status": 500}
+                return res
         else:
-            return f"Couldn't add to queue."
+            message = f"Couldn't add to queue."
+            res = {"message": message, "function": "add_to_queue_song_by_lyrics_and_artist", "status": 500}
+            return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't add to queue. Error: {error_message}"
+        message = f"Couldn't add to queue. Error: {error_message}"
+        res = {"message": message, "function": "add_to_queue_song_by_lyrics_and_artist", "status": 500}
+        return res
     
 def start_playback(access_token: str):
     try: 
         sp = spotipy.Spotify(auth = access_token)
         sp.start_playback()
-        return f"Playback Started."
+        message = f"Playback Started."
+        res = {"message": message, "function": "start_playback", "status": 200}
+        return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't start playback. Error: {error_message}"
+        message = f"Couldn't start playback. Error: {error_message}"
+        res = {"message": message, "function": "start_playback", "status": 500}
+        return res
 
 def pause_playback(access_token: str):
     try: 
         sp = spotipy.Spotify(auth = access_token)
         sp.pause_playback()
-        res = {"message": "Playback Paused.", "function": "pause_playback", "status": "200"}
-        # return f"Playback Paused."
+        res = {"message": "Playback Paused.", "function": "pause_playback", "status": 200}
         return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't stop playback. Error: {error_message}"
+        message =  f"Couldn't stop playback. Error: {error_message}"
+        res = {"message": message, "function": "pause_playback", "status": 500}
+        return res
     
 def play_next_track(access_token: str):
     try: 
         sp = spotipy.Spotify(auth = access_token)
         sp.next_track()
-        return f"Skipped to next track."
+        message = f"Skipped to next track."
+        res = {"message": message, "function": "play_next_track", "status": 200}
+        return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't skip track. Error: {error_message}"
+        message = f"Couldn't skip track. Error: {error_message}"
+        res = {"message": message, "function": "play_next_track", "status": 500}
+        return res
     
 def play_previous_track(access_token: str):
     try: 
         sp = spotipy.Spotify(auth = access_token)
         sp.previous_track()
-        return f"Playing previous track."
+        message = f"Playing previous track."
+        res = {"message": message, "function": "play_previous_track", "status": 200}
+        return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't play previous track. Error: {error_message}"
+        message = f"Couldn't play previous track. Error: {error_message}"
+        res = {"message": message, "function": "play_previous_track", "status": 500}
+        return res
     
 def recommend_tracks_by_user_top_tracks(access_token: str):
     try: 
@@ -193,11 +257,14 @@ def recommend_tracks_by_user_top_tracks(access_token: str):
         
         sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
         url = res["url"]
-
-        return f"To access playlist, click here: {url}"
+        message = f"To access playlist, click here: {url}"
+        res = {"message": message, "function": "recommend_tracks_by_user_top_tracks", "status": 200}
+        return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't recommend tracks. Error: {error_message}"
+        message = f"Couldn't recommend tracks. Error: {error_message}"
+        res = {"message": message, "function": "recommend_tracks_by_user_top_tracks", "status": 500}
+        return res
     
 def recommend_tracks_by_user_prompt(access_token: str, prompt: str):
     try:
@@ -230,7 +297,6 @@ def recommend_tracks_by_user_prompt(access_token: str, prompt: str):
         averages["target_key"] = int(averages["target_key"])
         averages["target_time_signature"] = int(averages["target_time_signature"])
         del averages["target_mode"]
-        print(averages)
 
         recommended_tracks_details = sp.recommendations(seed_tracks = track_ids[:5], **averages)
         recommended_tracks_uris = [track["id"] for track in recommended_tracks_details["tracks"]]
@@ -240,11 +306,14 @@ def recommend_tracks_by_user_prompt(access_token: str, prompt: str):
         print(recommended_tracks_uris)
         sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
         url = res["url"]
-        
-        return f"To access playlist, click here: {url}"
+        message = f"To access playlist, click here: {url}"
+        res = {"message": message, "function": "recommend_tracks_by_user_prompt", "status": 200}
+        return res
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't recommend tracks. Error: {error_message}"
+        message = f"Couldn't recommend tracks. Error: {error_message}"
+        res = {"message": message, "function": "recommend_tracks_by_user_prompt", "status": 500}
+        return res
 
 def recommend_tracks_by_genre(access_token: str, genre: str):
     try:
@@ -258,12 +327,15 @@ def recommend_tracks_by_genre(access_token: str, genre: str):
         print(recommended_tracks_uris)
         sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
         url = res["url"]
-        
-        return f"To access playlist, click here: {url}"
+        message = f"To access playlist, click here: {url}"
+        res = {"message": message, "function": "recommend_tracks_by_genre", "status": 200}
+        return res
     
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't recommend tracks. Error: {error_message}"
+        message = f"Couldn't recommend tracks. Error: {error_message}"
+        res = {"message": message, "function": "recommend_tracks_by_genre", "status": 500}
+        return res
     
 def recommend_tracks_by_artist(access_token: str, artist: str):
     try:
@@ -277,12 +349,15 @@ def recommend_tracks_by_artist(access_token: str, artist: str):
         res = create_playlist(access_token, playlist_name, "Naturify-recommended tracks, just for you!", False)
         sp.user_playlist_add_tracks(sp.me()["uri"].split(":")[-1], res["playlist_id"], recommended_tracks_uris, position=None)
         url = res["url"]
-        
-        return f"To access playlist, click here: {url}"
+        message =  f"To access playlist, click here: {url}"
+        res = {"message": message, "function": "recommend_tracks_by_artist", "status": 200}
+        return res
     
     except Exception as e:
         error_message = traceback.format_exc()
-        return f"Couldn't recommend tracks. Error: {error_message}"
+        message = f"Couldn't recommend tracks. Error: {error_message}"
+        res = {"message": message, "function": "recommend_tracks_by_artist", "status": 500}
+        return res
     
 def create_playlist(access_token: str, playlist_name: str, description: str, public: bool):
     try:
@@ -298,7 +373,6 @@ def create_playlist(access_token: str, playlist_name: str, description: str, pub
         url = res.json()["external_urls"]["spotify"]
 
         res = {"playlist_id": playlist_id, "url": url}
-
         return res
     except Exception as e:
         error_message = traceback.format_exc()
