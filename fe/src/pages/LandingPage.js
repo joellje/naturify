@@ -234,7 +234,7 @@ function LandingPage() {
                                 </button>
                             </div>
 
-                            <div>
+                            <div className='items-center justify-center'>
                                 {queries.length > 0 && (
                                     <div className='flex flex-row items-center justify-center mt-4'>
                                         <h1 className='text-xl font-bold text-center text-gray-900 m-2'>Past Queries</h1>
@@ -243,14 +243,22 @@ function LandingPage() {
                                         </button>
                                     </div>
                                 )}
-                                <ul className='text-center flex flex-col'>
+                                <ul className='text-center flex flex-col items-center justify-center'>
                                     {queries.map((query, index) => (
-                                        <div className='flex flex-row'>
-                                            <li className='btn btn-xs btn-neutral mb-1' onClick={() => handlePastSearch(query)} key={index}>
+                                        <div className='flex flex-row items-center justify-center mb-1'>
+                                            <li className='btn btn-xs btn-neutral' onClick={() => handlePastSearch(query)} key={index}>
                                                 {query}
                                             </li>
-                                            <button className='btn btn-xs mx-1'>Correct</button>
-                                            <button className='btn btn-xs'>Wrong</button>
+                                            <button className='mx-1'>
+                                                <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+                                                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                                                </svg>
+                                            </button>
+                                            <button>
+                                                <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+                                                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z' />
+                                                </svg>
+                                            </button>
                                         </div>
                                     ))}
                                 </ul>
