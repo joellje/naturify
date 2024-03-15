@@ -43,10 +43,3 @@ def query():
 
 if __name__ == '__main__':
     app.run(debug=True, host='localhost', port=8080)
-
-# while True:
-#     request = input(
-#         "\n\nRequest: ")
-#     result = agent({"input": access_token + request})
-#     answer = result["output"]
-#     print(answer)
