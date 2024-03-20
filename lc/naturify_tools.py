@@ -174,5 +174,4 @@ music_player_tools = [
     recommend_tracks_by_user_prompt_tool,
     recommend_tracks_by_genre_tool,
     recommend_tracks_by_artist_tool
-
 ]

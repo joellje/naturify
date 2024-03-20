@@ -103,7 +103,7 @@ def add_to_queue_song_by_name_and_artist(access_token: str, song_name: str, arti
 def start_play_song_by_lyrics(access_token: str, lyrics: str):
     try:
         sp = spotipy.Spotify(auth = access_token)
-        song_name = get_song_name_by_lyrics_genius(lyrics)
+        song_name = get_song_name_by_lyrics_genius(lyrics)["message"]
         song_uri = get_song_by_name(access_token, song_name)
         if (song_uri):
             sp.start_playback(uris=[song_uri])
@@ -123,7 +123,7 @@ def start_play_song_by_lyrics(access_token: str, lyrics: str):
 def add_to_queue_song_by_lyrics(access_token: str, lyrics: str):
     try:
         sp = spotipy.Spotify(auth = access_token)
-        song_name = get_song_name_by_lyrics_genius(lyrics)
+        song_name = get_song_name_by_lyrics_genius(lyrics)["message"]
         song_uri = get_song_by_name(access_token, song_name)
         if (song_uri):
             sp.add_to_queue(uri=song_uri)
@@ -144,7 +144,7 @@ def add_to_queue_song_by_lyrics(access_token: str, lyrics: str):
 def start_play_song_by_lyrics_and_artist(access_token: str, lyrics: str, artist: str):
     try:
         sp = spotipy.Spotify(auth = access_token)
-        song_name = get_song_name_by_lyrics_and_artist_genius(lyrics, artist)
+        song_name = get_song_name_by_lyrics_and_artist_genius(lyrics, artist)["message"]
         if song_name[:13] != "Couldn't find":
             song_uri = get_song_by_name(access_token, song_name)
             if (song_uri):
@@ -169,7 +169,7 @@ def start_play_song_by_lyrics_and_artist(access_token: str, lyrics: str, artist:
 def add_to_queue_song_by_lyrics_and_artist(access_token: str, lyrics: str, artist: str):
     try:
         sp = spotipy.Spotify(auth = access_token)
-        song_name = get_song_name_by_lyrics_and_artist_genius(lyrics, artist)
+        song_name = get_song_name_by_lyrics_and_artist_genius(lyrics, artist)["message"]
         print(song_name)
         if song_name[:13] != "Couldn't find":
             song_uri = get_song_by_name(access_token, song_name)
